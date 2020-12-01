@@ -1,0 +1,92 @@
+package ${package}.${moduleName}.controller;
+
+import java.util.Arrays;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.service.${className}Service;
+import ${mainPath}.common.util.PageUtils;
+import ${mainPath}.common.api.vo.Result;
+import ${mainPath}.common.system.query.BaseQuery;
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping("${moduleName}/${pathName}")
+@Validated
+@Slf4j
+@Api(value = "${className}Controller", tags = "${comments}")
+public class ${className}Controller {
+
+    @Autowired
+    private ${className}Service ${classname}Service;
+
+    /**
+     * 分页查询
+     */
+    @ApiOperation(value = "分页查询")
+    @GetMapping("/list")
+    public Result list(@RequestParam BaseQuery query) {
+        PageUtils page = ${classname}Service.queryPage(query);
+
+        return Result.ok(page);
+    }
+
+
+    /**
+     * 详细信息
+     */
+    @ApiOperation(value = "详细信息")
+    @GetMapping("/info/{${pk.attrname}}")
+    public Result info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
+        ${className}Entity ${classname} = ${classname}Service.getById(${pk.attrname});
+
+        return Result.ok(${classname});
+    }
+
+    /**
+     * 保存
+     */
+    @ApiOperation(value = "保存")
+    @PostMapping("/save")
+    public Result save(@RequestBody ${className}Entity ${classname}) {
+        ${classname}Service.save(${classname});
+
+        return Result.ok();
+    }
+
+    /**
+     * 修改
+     */
+    @ApiOperation(value = "修改")
+    @PutMapping("/update")
+    public Result update(@RequestBody ${className}Entity ${classname}) {
+        ${classname}Service.updateById(${classname});
+
+        return Result.ok();
+    }
+
+    /**
+     * 删除
+     */
+    @ApiOperation(value = "删除")
+    @DeleteMapping("/delete")
+    public Result delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s) {
+        ${classname}Service.removeByIds(Arrays.asList(${pk.attrname}s));
+
+        return Result.ok();
+    }
+
+}
